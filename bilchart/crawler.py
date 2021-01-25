@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import pymysql
+import pandas as pd
 
 url = 'https://www.billboard.com/charts/hot-100'
 
@@ -18,7 +20,19 @@ if response.status_code == 200:
             'song': i[1].text,
             'singer': i[2].text,
         })
-    for i in music_chart:
-        print(i)
+    # for i in music_chart:
+    #     print(i)
 else:
     print(response.status_code)
+
+con = pymysql.connect(host='localhost', user='root', password='0000', db='bilchart', charset='utf8')
+cur = con.cursor(pymysql.cursors.DictCursor)
+for i in music_chart:
+    sql = "INSERT INTO bilchart (rank,song,singer VALUE (%d,%s,%s))" % (int(i['rank']),i['song'],i['singer'])
+    cur.execute(sql)
+    con.commit()
+sql = "SELECT * from bilchart"
+cur.execute(sql)
+result = cur.fetchall()
+result = pd.DataFrame(result)
+result
