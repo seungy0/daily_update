@@ -25,12 +25,14 @@ if response.status_code == 200:
 else:
     print(response.status_code)
 
-con = pymysql.connect(host='localhost', user='root', password='0000', db='bilchart', charset='utf8')
+con = pymysql.connect(host='Localhost', user='user', password='0000', db='bilchart', charset='utf8')
 cur = con.cursor(pymysql.cursors.DictCursor)
 for i in music_chart:
-    sql = "INSERT INTO bilchart (rank,song,singer VALUE (%d,%s,%s))" % (int(i['rank']),i['song'],i['singer'])
+    print("%d %s %s" % (int(i['rank']), i['song'], i['singer']))
+    sql = "INSERT INTO bilchart (rank,song,singer) VALUES (%d,%s,%s);" % (int(i['rank']), i['song'], i['singer'])
     cur.execute(sql)
     con.commit()
+
 sql = "SELECT * from bilchart"
 cur.execute(sql)
 result = cur.fetchall()
