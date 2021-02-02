@@ -10,3 +10,9 @@
 |:---:|
 |<a href="https://www.djangoproject.com/"><img src="https://static.djangoproject.com/img/logos/django-logo-negative.png" height="50px"></a>|
 
+## 프로젝트 실행 방법
+
+```sh
+> service mysql restart
+> 
+```
