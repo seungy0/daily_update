@@ -1,9 +1,16 @@
 from django.shortcuts import render
-
+from django.http import HttpResponse
+from .models import Bilchart
 # Create your views here.
 
 
 def index(request):
+    bilcharts = Bilchart.objects.all()  # bilchart에 있는 모든 객체를 불러와 candidates에 저장
+    str = ''  # 리턴해줄 문자열(14번째줄)
+    for bilchart in bilcharts:
+        str += "<p>rank {}  title. {}<br>".format(Bilchart.rank, Bilchart.song)  # <br>은 html코드로 다음줄로 줄내림할때 사용
+        str += "{}</p>".format(Bilchart.singer)  # <p>는 html코드로 단락이동할때
+    return HttpResponse(str)
     return render(request, 'webchart/index.html')
 
 # # 새로 import 하는 모듈
