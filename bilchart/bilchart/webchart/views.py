@@ -10,7 +10,7 @@ def index(request):
     for bilchart in bilcharts:
         str += "<p>rank {}  title {}<br>".format(bilchart.rank, bilchart.song)  # <br>은 html코드로 다음줄로 줄내림할때 사용
         str += "{}</p>".format(Bilchart.singer)  # <p>는 html코드로 단락이동할때
-    return HttpResponse(str)
+    #  return HttpResponse(str)
     return render(request, 'webchart/index.html')
 
 # # 새로 import 하는 모듈
