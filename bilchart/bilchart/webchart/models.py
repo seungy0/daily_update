@@ -11,3 +11,10 @@ class Bilchart(models.Model):
     class Meta:
         managed = False
         db_table = 'bilchart'
+
+
+class vege(models.Model):
+    name = models.CharField(max_length=50)
+    contents = models.TextField()
+    img = models.ImageField()
+    price = models.IntegerField()
