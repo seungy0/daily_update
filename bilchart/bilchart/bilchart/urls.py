@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chart', include('webchart.urls')),
     path('', include('webchart.urls')),
+    path('user', include('user.urls')),
 ]

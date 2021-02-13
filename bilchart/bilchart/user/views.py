@@ -1,29 +1,25 @@
 from django.shortcuts import render
-import json
-
-from django.views import View
-from django.http import JsonResponse
-
+from django.http import HttpResponse
+from django.contrib.auth.hashers import make_password
 from .models import User
 # Create your views here.
 
 
-class CreateView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        User(
-            user_id=data['user_id'],
-            email=data['email'],
-            password=data['password'],
-        )
+def register(request):   #회원가입 페이지를 보여주기 위한 함수
+    if request.method == "GET":
+        return render(request, 'register.html')
 
-        if User.objects.filter(user_id=data['user_id']).exists() == True:
-            return JsonResponse({"message": "이미 존재하는 아이디입니다."}, status=401)
-
+    elif request.method == "POST":
+        username = request.POST.get['username', None]   # 딕셔너리형태
+        password = request.POST.get['password', None]
+        re_password = request.POST.get['re_password', None]
+        res_data = {}
+        if not (username and password and re_password):
+            res_data['error'] = "모든 값을 입력해야 합니다."
+        if password != re_password:
+            # return HttpResponse('비밀번호가 다릅니다.')
+            res_data['error'] = '비밀번호가 다릅니다.'
         else:
-            User.objects.create(user_id=data['user_id'], email=data['email'], password=data['password'])
-            return JsonResponse({"message": "회원으로 가입되셨습니다."}, status=200)
-
-    def get(self, request):
-        users = User.objects.values()
-        return JsonResponse({"data": list(users)}, status=200)
+            user = User(username=username, password=make_password(password))
+            user.save()
+        return render(request, 'register.html', res_data)  # register를 요청받으면 register.html 로 응답.
