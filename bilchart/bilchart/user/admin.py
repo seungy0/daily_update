@@ -9,7 +9,7 @@ from .models import User   # 같은 경로의 models.py에서 User라는 클래�
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'password', 'email')
+    list_display = ('user_id', 'user_name', 'password', 'email', 'phone')
 
 
 admin.site.register(User, UserAdmin)  # site에 등록
