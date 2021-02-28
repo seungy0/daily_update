@@ -54,7 +54,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'bilchart.urls'
-
+AUTH_USER_MODEL = 'account.User'
+LOGIN_REDIRECT_URL = '/'  			# 로그인 시 리디렉트 시켜줄 위치를 명시
+LOGOUT_REDIRECT_URL = '/'			# 로그아웃 시 리디렉트 시켜줄 위치를 명시
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
