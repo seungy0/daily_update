@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
@@ -27,6 +27,8 @@ def register(request):   #회원가입 페이지를 보여주기 위한 함수
             user = User.objects.create_user(
                 user_name=username, user_id=user_id, email=email, password=make_password(password), phone=phone
             )
+            auth.login(request, user)
+            return redirect('/')
         return render(request, 'user/register2.html', res_data)  # register를 요청받으면 register.html 로 응답.
 
 
@@ -40,9 +42,9 @@ def signin(request):
         res_data = {}
         if not (user_id and password):
             res_data['error'] = "모든 값을 입력해야 합니다."
-        user = auth.authenticate(request, user_id=user_id, password=password)
+        user = auth.authenticate(request, user_name=user_id, password=password)
         if user is not None:
             auth.login(request, user)
-            return HttpResponseRedirect('')
+            return render(request, 'webchart/index.html')
         else:
-            return render(request, 'login.html', {'error': 'username or password is incorrect'})
+            return render(request, 'user/signin.html', {'error': 'username or password is incorrect'})

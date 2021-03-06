@@ -71,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(
         max_length=20,
         null=False,
-        unique=False
+        unique=True
     )
     email = models.EmailField(
         max_length=255,
@@ -88,4 +88,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'user_name'
-    REQUIRED_FIELDS = ['user_name', 'email', 'user_id', 'phone']
+    REQUIRED_FIELDS = ['email', 'user_id', 'phone']
+
+    # def __str__(self):
+    #     return self.user_name
+
+    # def has_perm(self, perm, obj=None):
+    #     return True
+
+    # def has_module_perms(self, app_label):
+    #     return True
+
+    @property
+    def is_staff(self):
+        return self.is_admin
