@@ -25,7 +25,7 @@ def register(request):   #회원가입 페이지를 보여주기 위한 함수
             res_data['error'] = '비밀번호가 다릅니다.'
         else:
             user = User.objects.create_user(
-                user_name=username, user_id=user_id, email=email, password=make_password(password), phone=phone
+                user_name=username, user_id=user_id, email=email, password=password, phone=phone
             )
             auth.login(request, user)
             return redirect('/')
